@@ -111,25 +111,46 @@ def predict(history, prompt, max_length, top_p, temperature):
         yield history
 
 
-with gr.Blocks() as demo:
-    gr.HTML("""<h1 align="center">GLM-4-9B Gradio Simple Chat Demo</h1>""")
+# with gr.Blocks() as demo:
+#     gr.HTML("""<h1 align="center">XAI Chat Demo</h1>""")
+#     chatbot = gr.Chatbot()
+#
+#     with gr.Row():
+#         with gr.Column(scale=3):
+#             with gr.Column(scale=12):
+#                 user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10, container=False)
+#             with gr.Column(min_width=32, scale=1):
+#                 submitBtn = gr.Button("Submit")
+#         with gr.Column(scale=1):
+#             prompt_input = gr.Textbox(show_label=False, placeholder="Prompt", lines=10, container=False)
+#             pBtn = gr.Button("Set Prompt")
+#         with gr.Column(scale=1):
+#             emptyBtn = gr.Button("Clear History")
+#             max_length = gr.Slider(0, 32768, value=8192, step=1.0, label="Maximum length", interactive=True)
+#             top_p = gr.Slider(0, 1, value=0.8, step=0.01, label="Top P", interactive=True)
+#             temperature = gr.Slider(0.01, 1, value=0.6, step=0.01, label="Temperature", interactive=True)
+
+with gr.Blocks(theme=gr.themes.Default()) as demo:
+    gr.HTML("""<h1 align="center" style="color: #4CAF50;">XAI Chat Demo</h1>""")
+
     chatbot = gr.Chatbot()
 
     with gr.Row():
         with gr.Column(scale=3):
             with gr.Column(scale=12):
-                user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10, container=False)
+                user_input = gr.Textbox(show_label=False, placeholder="请输入您的内容...", lines=6, container=False)
             with gr.Column(min_width=32, scale=1):
-                submitBtn = gr.Button("Submit")
-        with gr.Column(scale=1):
-            prompt_input = gr.Textbox(show_label=False, placeholder="Prompt", lines=10, container=False)
-            pBtn = gr.Button("Set Prompt")
-        with gr.Column(scale=1):
-            emptyBtn = gr.Button("Clear History")
-            max_length = gr.Slider(0, 32768, value=8192, step=1.0, label="Maximum length", interactive=True)
-            top_p = gr.Slider(0, 1, value=0.8, step=0.01, label="Top P", interactive=True)
-            temperature = gr.Slider(0.01, 1, value=0.6, step=0.01, label="Temperature", interactive=True)
+                submitBtn = gr.Button("发送", variant="primary")
 
+        with gr.Column(scale=1):
+            prompt_input = gr.Textbox(show_label=False, placeholder="请输入Prompt...", lines=6, container=False)
+            pBtn = gr.Button("设置 Prompt", variant="secondary")
+
+        with gr.Column(scale=1):
+            emptyBtn = gr.Button("清空记录", variant="stop")
+            max_length = gr.Slider(0, 32768, value=8192, step=1.0, label="最大长度", interactive=True)
+            top_p = gr.Slider(0, 1, value=0.8, step=0.01, label="Top P（核采样策略）", interactive=True)
+            temperature = gr.Slider(0.01, 1, value=0.6, step=0.01, label="温度系数", interactive=True)
 
     def user(query, history):
         return "", history + [[query, ""]]
